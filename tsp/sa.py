@@ -30,10 +30,7 @@ class TSPSimulatedAnnealing(TSP):
         while number_of_iterations < max_iter and t > self.t_min:
             iterations = 0
             while iterations < self.max_iterations_at_each_t:
-                i = np.random.randint(0, self.number_of_cities - 1)
-                j = np.random.randint(i + 1, self.number_of_cities)
-                random_neighbor = self._neighbor_2_opt(self.current_solution, i, j)
-                random_neighbor_cost = self._evaluate_solution(random_neighbor)
+                random_neighbor, random_neighbor_cost = self._select_neighbor(self.current_solution)
                 delta_e = random_neighbor_cost - self.current_cost
                 if delta_e < 0:
                     self.current_solution = random_neighbor
@@ -55,6 +52,21 @@ class TSPSimulatedAnnealing(TSP):
         time_elapsed = time.time() - time_init
         self._report(number_of_iterations, time_elapsed, t)
         return self.current_solution, self.current_cost
+
+    def _select_neighbor(self, solution):
+
+        if self.neighborhood == '2-opt':
+            get_neighbor = self._neighbor_2_opt
+        elif self.neighborhood == 'swap':
+            get_neighbor = self._neighbor_swap
+        else:
+            raise AttributeError
+
+        i = np.random.randint(0, self.number_of_cities - 1)
+        j = np.random.randint(i + 1, self.number_of_cities)
+        random_neighbor = get_neighbor(self.current_solution, i, j)
+        random_neighbor_cost = self._evaluate_solution(random_neighbor)
+        return random_neighbor, random_neighbor_cost
 
     def _report(self, n_iteration, time_elapsed, t):
         print "Iteration number", n_iteration

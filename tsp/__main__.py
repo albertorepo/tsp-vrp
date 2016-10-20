@@ -9,8 +9,10 @@ import matplotlib.pyplot as plt
 def main():
     parser = InstanceParser('../xqf131.txt')
     dists = parser.retrieve_instance()
-    tsp_ls = TSPTabuSearch(distance_matrix=dists, tabu_size=10, max_threshold=80)
-    sol, _ = tsp_ls.run(1000, 10)
+    tsp_ls = TSPTabuSearch(distance_matrix=dists, tabu_size=10, seed=1)
+    sol, cost = tsp_ls.run(max_iter=100, verbose=10)
+    print "Solution", sol
+    print "Cost", cost
 
     x_sorted = [parser.x_coord[i - 1] for i in sol]
     y_sorted = [parser.y_coord[i - 1] for i in sol]

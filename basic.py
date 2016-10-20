@@ -1,6 +1,6 @@
 class Problem:
 
-    def _neighborhood(self, *args, **kwargs):
+    def _select_neighbor(self, *args, **kwargs):
         raise NotImplementedError("`neighborhood` method has not been implemented.")
 
     def _evaluate_solution(self, *args, **kwargs):
