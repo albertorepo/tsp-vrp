@@ -29,6 +29,8 @@ class CVRP(Problem):
             return self._seq_initial_solution()
         elif self.initial_solution_strategy == 'random':
             return self._rand_initial_solution()
+        else:
+            raise AttributeError('`initial_solution_strategy` must be either `sequential` or `random`')
 
     def _rand_initial_solution(self):
         cities = range(1, self.number_of_cities)
@@ -44,7 +46,6 @@ class CVRP(Problem):
         return solution
 
     def _seq_initial_solution(self):
-        # TODO: Implement paraller route building
         """Sequential route building"""
         cities = range(1, self.number_of_cities)
         solution = []
@@ -74,7 +75,7 @@ class CVRP(Problem):
         for (r_n, R), (t_n, T) in itertools.combinations(enumerate(solution_tmp), 2):
             for u in range(0, len(R)):
                 for v in range(0, len(T)):
-                    if self._change_is_feasible(R, T, u, v):
+                    if self._2opt_change_is_feasible(R, T, u, v):
                         incremental_cost = self._increment_of_cost_between_routes(R, T, u, v)
                         if incremental_cost < best_incremental_cost:
                             best_incremental_cost = incremental_cost
@@ -137,7 +138,7 @@ class CVRP(Problem):
                self._route_cost(route1, u, u + 1) - \
                self._route_cost(route2, v, v + 1)
 
-    def _change_is_feasible(self, route1, route2, u, v):
+    def _2opt_change_is_feasible(self, route1, route2, u, v):
         load_1_until_u = sum(self.demand[route1[k]] for k in range(u + 1))
         load_2_until_v = sum(self.demand[route2[k]] for k in range(v + 1))
         return load_1_until_u + self._load(route2) - load_2_until_v <= self.truck_capacity and \

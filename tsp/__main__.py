@@ -14,8 +14,8 @@ def main():
     print "Solution", sol
     print "Cost", cost
 
-    x_sorted = [parser.x_coord[i - 1] for i in sol]
-    y_sorted = [parser.y_coord[i - 1] for i in sol]
+    x_sorted = [parser.x_coord_[i - 1] for i in sol]
+    y_sorted = [parser.y_coord_[i - 1] for i in sol]
 
     plt.plot(x_sorted, y_sorted)
     plt.scatter(x_sorted, y_sorted)

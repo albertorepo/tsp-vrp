@@ -49,7 +49,7 @@ class CVRPSimulatedAnnealing(CVRP):
             route1, route2 = random.sample(self.current_solution, 2)
             u = random.randint(0, len(route1) - 1)
             v = random.randint(0, len(route2) - 1)
-            if self._change_is_feasible(route1, route2, u, v):
+            if self._2opt_change_is_feasible(route1, route2, u, v):
                 break
         r1_n, r2_n = self.current_solution.index(route1), self.current_solution.index(route2)
         delta_e = self._increment_of_cost_between_routes(route1, route2, u, v)
