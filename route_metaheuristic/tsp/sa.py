@@ -80,8 +80,16 @@ class TSPSimulatedAnnealing(TSP):
     -- [3] Kirkpatrick, S. (1984). Optimization by simulated annealing:
     Quantitative studies. Journal of statistical physics, 34(5-6), 975-986.
 
+    Examples
+    --------
+    >>> from route_metaheuristic.tsp import TSPSimulatedAnnealing
+    >>> tsp = TSPSimulatedAnnealing(distance_matrix=[[0, 3, 2, 4],
+    >>>                                              [3, 0, 2, 3],
+    >>>                                              [2, 2, 0, 1],
+    >>>                                              [4, 3, 1, 0]])
+    >>> tsp.run(max_iter=1000)
+    ([4, 3, 1, 2], 9)
     """
-
     def __init__(self,
                  distance_matrix,
                  initial_solution_strategy='greedy',
@@ -125,17 +133,17 @@ class TSPSimulatedAnnealing(TSP):
         while number_of_iterations < max_iter and t > self.t_min:
             iterations = 0
             while iterations < self.max_iterations_at_each_t:
-                random_neighbor, random_neighbor_cost = self._select_neighbor(self.current_solution)
-                delta_e = random_neighbor_cost - self.current_cost
+                random_neighbor, random_neighbor_cost = self._select_neighbor(self.current_solution_)
+                delta_e = random_neighbor_cost - self.current_cost_
                 if delta_e < 0:
-                    self.current_solution = random_neighbor
-                    self.current_cost = random_neighbor_cost
+                    self.current_solution_ = random_neighbor
+                    self.current_cost_ = random_neighbor_cost
                 else:
                     p = np.exp(-delta_e / t)
                     accept = np.random.choice([True, False], p=[p, 1-p])
                     if accept:
-                        self.current_solution = random_neighbor
-                        self.current_cost = random_neighbor_cost
+                        self.current_solution_ = random_neighbor
+                        self.current_cost_ = random_neighbor_cost
                 iterations += 1
             if verbose and number_of_iterations % verbose == 0 and number_of_iterations != 0:
                 time_elapsed = time.time() - time_init
@@ -146,7 +154,7 @@ class TSPSimulatedAnnealing(TSP):
 
         time_elapsed = time.time() - time_init
         self._report(number_of_iterations, time_elapsed, t)
-        return self.current_solution, self.current_cost
+        return self.current_solution_, self.current_cost_
 
     def _select_neighbor(self, solution):
         """Select a random neighbor from solution to set as the new solution.
@@ -167,7 +175,7 @@ class TSPSimulatedAnnealing(TSP):
 
         i = np.random.randint(0, self.number_of_cities_ - 1)
         j = np.random.randint(i + 1, self.number_of_cities_)
-        random_neighbor = self.get_neighbor(self.current_solution, i, j)
+        random_neighbor = self.get_neighbor(self.current_solution_, i, j)
         random_neighbor_cost = self._evaluate_solution(random_neighbor)
         return random_neighbor, random_neighbor_cost
 
@@ -187,8 +195,8 @@ class TSPSimulatedAnnealing(TSP):
         """
 
         print "Iteration number", n_iteration
-        print "\t * Current solution:", list(self.current_solution)
-        print "\t * Current cost:", self.current_cost
+        print "\t * Current solution:", list(self.current_solution_)
+        print "\t * Current cost:", self.current_cost_
         print "\t * Current temperature:", t
         print "\t * Time elapsed: %.2f seconds" % time_elapsed
 

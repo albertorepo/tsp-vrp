@@ -1,7 +1,8 @@
 import time
-import numpy as np
-from utils import unique
 
+import numpy as np
+
+from route_metaheuristic.utils import unique
 from tsp import TSP
 
 
@@ -64,8 +65,6 @@ class TSPTabuSearch(TSP):
     best_cost_ : float
         Objective function value of the best solution.
 
-
-
     References
     ----------
 
@@ -76,6 +75,16 @@ class TSPTabuSearch(TSP):
     .. [3] Gendreau, M., Hertz, A., & Laporte, G. (1994). A tabu search
     heuristic for the vehicle routing problem. Management science,
     40(10), 1276-1290.
+
+    Examples
+    --------
+    >>> from route_metaheuristic.tsp import TSPTabuSearch
+    >>> tsp = TSPTabuSearch(distance_matrix=[[0, 3, 2, 4],
+    >>>                                      [3, 0, 2, 3],
+    >>>                                      [2, 2, 0, 1],
+    >>>                                      [4, 3, 1, 0]], tabu_size=2)
+    >>> tsp.run(max_iter=1000)
+    ([2, 3, 4, 1], 9)
 
     """
     def __init__(self,
@@ -93,9 +102,9 @@ class TSPTabuSearch(TSP):
             neighborhood,
             seed)
         self.tabu_size = tabu_size
-        self.tabu_ = [self.current_solution]
-        self.best_solution_ = self.current_solution
-        self.best_cost_ = self.current_cost
+        self.tabu_ = [self.current_solution_]
+        self.best_solution_ = self.current_solution_
+        self.best_cost_ = self.current_cost_
 
     def run(self, max_iter, verbose=None):
         """Run a simulated annealing search over the algorithm instance.
@@ -119,9 +128,9 @@ class TSPTabuSearch(TSP):
 
         while number_of_iterations < max_iter:
             self.prune_tabu_list()
-            best_neighbor, best_neighbor_cost = self._select_neighbor(self.current_solution)
-            self.current_solution = best_neighbor
-            self.current_cost = best_neighbor_cost
+            best_neighbor, best_neighbor_cost = self._select_neighbor(self.current_solution_)
+            self.current_solution_ = best_neighbor
+            self.current_cost_ = best_neighbor_cost
 
             if best_neighbor_cost < self.best_cost_:
                 self.update_best_solution(best_neighbor, best_neighbor_cost)
@@ -131,7 +140,7 @@ class TSPTabuSearch(TSP):
                 self._report(number_of_iterations, time_elapsed)
 
             number_of_iterations += 1
-            self.tabu_.append(self.current_solution)
+            self.tabu_.append(self.current_solution_)
 
         time_elapsed = time.time() - time_init
         self._report(number_of_iterations, time_elapsed)
@@ -230,8 +239,8 @@ class TSPTabuSearch(TSP):
 
         """
         print "Iteration number", n_iteration
-        print "\t * Current solution:", list(self.current_solution)
-        print "\t * Current cost:", self.current_cost
+        print "\t * Current solution:", list(self.current_solution_)
+        print "\t * Current cost:", self.current_cost_
         print "\t * Time elpased:", time_elapsed, 'seconds'
         print "\t * Tabu list length:", len(self.tabu_)
 

@@ -1,8 +1,9 @@
+import random
 from copy import deepcopy
 
-from basic import Problem
-import random
 import numpy as np
+
+from route_metaheuristic.basic import Problem
 
 
 class TSP(Problem):

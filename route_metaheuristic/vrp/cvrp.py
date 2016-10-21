@@ -1,11 +1,11 @@
-import random
-
 import itertools
+import math
+import random
 from copy import deepcopy
 
-from basic import Problem
-import math
 import numpy as np
+
+from route_metaheuristic.basic import Problem
 
 
 

@@ -1,7 +1,7 @@
 from nose.tools import assert_equal
 from nose.tools import assert_raises
 
-from tsp.tsp import TSP
+from route_metaheuristic.tsp import TSP
 
 
 class TestTSP:

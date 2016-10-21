@@ -1,5 +1,5 @@
 import time
-from tsp import TSP
+from route_metaheuristic.tsp.tsp import TSP
 
 
 class TSPLocalSearch(TSP):
@@ -61,7 +61,7 @@ class TSPLocalSearch(TSP):
 
     Examples
     --------
-    >>> from tsp.local_search import TSPLocalSearch
+    >>> from route_metaheuristic.tsp import TSPLocalSearch
     >>> tsp = TSPLocalSearch(distance_matrix=[[0, 3, 2, 4],
     >>>                                       [3, 0, 2, 3],
     >>>                                       [2, 2, 0, 1],
@@ -70,11 +70,11 @@ class TSPLocalSearch(TSP):
     ([3, 4, 2, 1], 9)
     """
     def __init__(self,
-                distance_matrix,
-                initial_solution_strategy='greedy',
-                neighbor_selection='first',
-                neighborhood='2-opt',
-                seed=None):
+                 distance_matrix,
+                 initial_solution_strategy='greedy',
+                 neighbor_selection='first',
+                 neighborhood='2-opt',
+                 seed=None):
         TSP.__init__(
             self,
             distance_matrix,

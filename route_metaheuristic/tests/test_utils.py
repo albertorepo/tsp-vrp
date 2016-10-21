@@ -1,6 +1,6 @@
 from nose.tools import assert_equal
 
-from utils import unique
+from route_metaheuristic.utils import unique
 
 
 class TestUtils:
