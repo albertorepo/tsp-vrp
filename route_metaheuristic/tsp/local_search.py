@@ -1,5 +1,5 @@
 import time
-from route_metaheuristic.tsp.tsp import TSP
+from route_metaheuristic.tsp import TSP
 
 
 class TSPLocalSearch(TSP):
@@ -52,22 +52,15 @@ class TSPLocalSearch(TSP):
     References
     ----------
 
-    .. [1] https://en.wikipedia.org/wiki/Travelling_salesman_problem
-
-    .. [2] https://en.wikipedia.org/wiki/2-opt
-
-    .. [3] Lenstra, J. K. (1997). Local search in combinatorial
+    .. [1] Lenstra, J. K. (1997). Local search in combinatorial
     optimization. Princeton University Press.
 
     Examples
     --------
     >>> from route_metaheuristic.tsp import TSPLocalSearch
-    >>> tsp = TSPLocalSearch(distance_matrix=[[0, 3, 2, 4],
-    >>>                                       [3, 0, 2, 3],
-    >>>                                       [2, 2, 0, 1],
-    >>>                                       [4, 3, 1, 0]])
+    >>> tsp = TSPLocalSearch(distance_matrix=[[0, 3, 2, 4], [3, 0, 2, 3], [2, 2, 0, 1], [4, 3, 1, 0]], seed=1)
     >>> tsp.run(max_iter=1000)
-    ([3, 4, 2, 1], 9)
+    ([1, 3, 4, 2], 9)
     """
     def __init__(self,
                  distance_matrix,
@@ -97,6 +90,14 @@ class TSPLocalSearch(TSP):
         verbose: int or None, optional, (defaul=None)
             If `verbose` is an integer then a summary of the solution
             is printed at every given `verbose` iteration.
+
+        Returns
+        -------
+        current_solution : array-like, shape=(n_cities)
+            Best solution found at current stage
+
+        current_cost : float
+            Cost of the best solution
         """
 
         number_of_iterations = 0
@@ -114,9 +115,6 @@ class TSPLocalSearch(TSP):
                 number_of_iterations += 1
             except KeyboardInterrupt:
                 break
-
-        time_elapsed = time.time() - time_init
-        self._report(number_of_iterations, time_elapsed)
 
         return self.current_solution_, self.current_cost_
 

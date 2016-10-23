@@ -118,6 +118,9 @@ instance/
 
 # Sphinx documentation
 docs/_build/
+doc/_build/
+doc/auto_examples/
+doc/generated/
 
 # PyBuilder
 target/
@@ -144,3 +147,5 @@ ENV/
 
 # Rope project settings
 .ropeproject
+
+

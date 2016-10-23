@@ -27,13 +27,10 @@ setup(name='route_metaheuristic',
       include_package_data=True,
       install_requires=[
           'numpy',
+          'matplotlib',
+          'sphinx_rtd_theme'
       ],
       tests_require=[
           'nose',
-      ],
-      entry_points={
-          'console_scripts': [
-              'solve_tsp = route_metaheuristic.tsp.__main__:main',
-              'solve_cvrp = route_metaheuristic.cvrp.__main__:main']
-      }
+      ]
       )

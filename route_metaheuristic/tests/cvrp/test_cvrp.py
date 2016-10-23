@@ -3,7 +3,7 @@ from nose.tools import assert_equals
 from nose.tools import assert_false
 from nose.tools import assert_raises
 
-from route_metaheuristic.vrp.cvrp import CVRP
+from route_metaheuristic.cvrp import CVRP
 
 
 class TestCVRP:

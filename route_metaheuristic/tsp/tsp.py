@@ -70,7 +70,8 @@ class TSP(Problem):
         self.distance_matrix = distance_matrix
         self.number_of_cities_ = len(self.distance_matrix)
         self.seed = seed
-        self.current_solution_ = self._get_initial_solution(initial_solution_strategy)
+        self.initial_solution_strategy = initial_solution_strategy
+        self.current_solution_ = self._get_initial_solution()
         self.current_cost_ = self._evaluate_solution(self.current_solution_)
         self.neighbor_selection = neighbor_selection
         self.neighborhood = neighborhood
@@ -82,14 +83,8 @@ class TSP(Problem):
         else:
             raise AttributeError('`neighborhood` must be either `2-opt` or `swap`')
 
-    def _get_initial_solution(self, strategy):
+    def _get_initial_solution(self):
         """Generate a starting point to solve the problem.
-
-        Parameters
-        ----------
-        strategy : string
-            The strategy to follow. It is defined at the creation of the
-            object.
 
         Returns
         -------
@@ -97,12 +92,12 @@ class TSP(Problem):
             A permutation that constitutes a solution of the TSP.
         """
 
-        if strategy == 'random':
+        if self.initial_solution_strategy == 'random':
             solution = range(1, self.number_of_cities_ + 1)
             random.seed(self.seed)
             random.shuffle(solution)
             return solution
-        elif strategy == 'greedy':
+        elif self.initial_solution_strategy == 'greedy':
             bag_of_cities = range(0, self.number_of_cities_)
             random.seed(self.seed)
             solution = [random.randint(1, self.number_of_cities_)]
@@ -118,9 +113,9 @@ class TSP(Problem):
     def _neighbor_2_opt(self, solution, i, j):
         """Build a neighbor following the 2-opt neighborhood strategy.
 
-         Parameters
-         ----------
-         solution: array-like of shape = (n_cities)
+        Parameters
+        ----------
+        solution: array-like of shape = (n_cities)
             The permutation to be transformed into a new solution.
 
         i : int
@@ -131,7 +126,7 @@ class TSP(Problem):
 
         Returns
         -------
-        solution_tmp : array-like of shape = [n_cities]
+        solution_tmp : array-like of shape = (n_cities)
             Return the generated neighbor.
         """
 
@@ -165,7 +160,7 @@ class TSP(Problem):
 
     def _evaluate_solution(self, solution, idx=1):
         """Calculate the objective function value of a given solution
-        in a recurisve way.
+        in a recursive way.
 
         The objective function will be the sum of the distances of every
         consecutive city on the permutation plus the distance between the

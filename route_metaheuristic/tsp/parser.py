@@ -3,9 +3,9 @@ import math
 class InstanceParser:
     """Parser of TSP files.
 
-    Read the *.tsp files and return the main values asociated
+    Read the *.tsp files and return the main values associated
     with the instance of problem defined in the file.
-    If the file is not well.built, it will raise a ValueError.
+    If the file is not well built, it will raise a ValueError.
 
     Parameters
     ----------
@@ -32,12 +32,9 @@ class InstanceParser:
         """Read the file and retrieve the information
         related to the instance.
 
-        Parameters
-        ----------
-
         Returns
         -------
-        distance_matrix : array-like, shape = (n_cities, n_cities)
+        distance_matrix : array-like, shape=(n_cities, n_cities)
             Distances between each of the cities of the problem.
         """
 
